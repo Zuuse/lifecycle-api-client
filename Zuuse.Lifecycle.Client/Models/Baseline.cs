@@ -26,9 +26,10 @@ namespace Zuuse.Lifecycle.Client.Models
         /// <param name="status">Possible values include: 'Unset', 'Running',
         /// 'Canceling', 'Completed', 'Deleting', 'Deleted', 'Canceled',
         /// 'Errored'</param>
-        public Baseline(string status, string displayName, double discountRate, int forecastHorizon, System.DateTime? runDate = default(System.DateTime?), int? startYear = default(int?), string id = default(string), System.DateTime? versionDate = default(System.DateTime?), string versionBy = default(string), System.DateTime? createdDate = default(System.DateTime?), string createdBy = default(string), bool? isActive = default(bool?))
+        public Baseline(string status, string displayName, double discountRate, int forecastHorizon, string errorMessage = default(string), System.DateTime? runDate = default(System.DateTime?), int? startYear = default(int?), string id = default(string), System.DateTime? versionDate = default(System.DateTime?), string versionBy = default(string), System.DateTime? createdDate = default(System.DateTime?), string createdBy = default(string), bool? isActive = default(bool?))
         {
             Status = status;
+            ErrorMessage = errorMessage;
             DisplayName = displayName;
             DiscountRate = discountRate;
             RunDate = runDate;
@@ -55,6 +56,11 @@ namespace Zuuse.Lifecycle.Client.Models
         /// </summary>
         [JsonProperty(PropertyName = "Status")]
         public string Status { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "ErrorMessage")]
+        public string ErrorMessage { get; set; }
 
         /// <summary>
         /// </summary>

@@ -40,6 +40,11 @@ namespace Zuuse.Lifecycle.Client
         ILifecycle Lifecycle { get; }
 
         /// <summary>
+        /// Gets the IScenario.
+        /// </summary>
+        IScenario Scenario { get; }
+
+        /// <summary>
         /// Gets the IZuuse.
         /// </summary>
         IZuuse Zuuse { get; }

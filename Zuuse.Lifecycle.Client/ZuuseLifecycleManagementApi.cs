@@ -43,6 +43,11 @@ namespace Zuuse.Lifecycle.Client
         public virtual ILifecycle Lifecycle { get; private set; }
 
         /// <summary>
+        /// Gets the IScenario.
+        /// </summary>
+        public virtual IScenario Scenario { get; private set; }
+
+        /// <summary>
         /// Gets the IZuuse.
         /// </summary>
         public virtual IZuuse Zuuse { get; private set; }
@@ -141,6 +146,7 @@ namespace Zuuse.Lifecycle.Client
         {
             Baseline = new BaselineOperations(this);
             Lifecycle = new Lifecycle(this);
+            Scenario = new Scenario(this);
             Zuuse = new Zuuse(this);
             BaseUri = new System.Uri("http://zuuselifecyclemanagementapidev.azurewebsites.net");
             SerializationSettings = new JsonSerializerSettings
