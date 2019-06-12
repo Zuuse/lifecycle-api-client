@@ -5,7 +5,7 @@ A client API wrapper around the Zuuse Lifecycle API, providing access to lifecyc
 This project is a lightweight, code-generated wrapper around the Zuuse Lifecycle API.  It is generated using Autorest https://github.com/Azure/autorest/blob/master/docs/examples/generating-a-client.md in PowerShell as:
 
 ```
-iwr https://zuuselifecyclemanagementapi.azurewebsites.net/swagger/docs/v1 -o interface.xml
+iwr https://lifecycle.zuuse.com/swagger/docs/v1 -o interface.xml
 autorest --input-file=interface.xml --csharp --output-folder=Zuuse.Lifecycle.Client --namespace=Zuuse.Lifecycle.Client
 ```
 
