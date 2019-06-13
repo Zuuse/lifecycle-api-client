@@ -526,6 +526,12 @@ namespace Zuuse.Lifecycle.Client
         /// <param name='scenarioId'>
         /// The Id of the Scenario
         /// </param>
+        /// <param name='locationId'>
+        /// The unique Id for the position of location taxonomy
+        /// </param>
+        /// <param name='functionId'>
+        /// The unique Id for the position of function taxonomy
+        /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
         /// </param>
@@ -547,7 +553,7 @@ namespace Zuuse.Lifecycle.Client
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<BaselineScenarioSummary>> ScenarioSummaryWithHttpMessagesAsync(string client, string baselineId, string scenarioId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<BaselineScenarioSummary>> ScenarioSummaryWithHttpMessagesAsync(string client, string baselineId, string scenarioId, System.Guid? locationId = default(System.Guid?), System.Guid? functionId = default(System.Guid?), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (client == null)
             {
@@ -571,6 +577,8 @@ namespace Zuuse.Lifecycle.Client
                 tracingParameters.Add("client", client);
                 tracingParameters.Add("baselineId", baselineId);
                 tracingParameters.Add("scenarioId", scenarioId);
+                tracingParameters.Add("locationId", locationId);
+                tracingParameters.Add("functionId", functionId);
                 tracingParameters.Add("cancellationToken", cancellationToken);
                 ServiceClientTracing.Enter(_invocationId, this, "ScenarioSummary", tracingParameters);
             }
@@ -580,6 +588,19 @@ namespace Zuuse.Lifecycle.Client
             _url = _url.Replace("{client}", System.Uri.EscapeDataString(client));
             _url = _url.Replace("{baselineId}", System.Uri.EscapeDataString(baselineId));
             _url = _url.Replace("{scenarioId}", System.Uri.EscapeDataString(scenarioId));
+            List<string> _queryParameters = new List<string>();
+            if (locationId != null)
+            {
+                _queryParameters.Add(string.Format("locationId={0}", System.Uri.EscapeDataString(Microsoft.Rest.Serialization.SafeJsonConvert.SerializeObject(locationId, Client.SerializationSettings).Trim('"'))));
+            }
+            if (functionId != null)
+            {
+                _queryParameters.Add(string.Format("functionId={0}", System.Uri.EscapeDataString(Microsoft.Rest.Serialization.SafeJsonConvert.SerializeObject(functionId, Client.SerializationSettings).Trim('"'))));
+            }
+            if (_queryParameters.Count > 0)
+            {
+                _url += "?" + string.Join("&", _queryParameters);
+            }
             // Create HTTP transport objects
             var _httpRequest = new HttpRequestMessage();
             HttpResponseMessage _httpResponse = null;
@@ -679,9 +700,15 @@ namespace Zuuse.Lifecycle.Client
         /// <param name='scenarioId'>
         /// The Id of the Scenario
         /// </param>
-        /// <param name='scenarioDetails'>
+        /// <param name='deferrals'>
         /// The baselineScenarioDetails to use in the calculations. contained in the
         /// httppost body
+        /// </param>
+        /// <param name='locationId'>
+        /// The unique Id for the position of location taxonomy
+        /// </param>
+        /// <param name='functionId'>
+        /// The unique Id for the position of function taxonomy
         /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
@@ -704,7 +731,7 @@ namespace Zuuse.Lifecycle.Client
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<BaselineScenarioSummary>> ScenarioSummaryCalculateWithHttpMessagesAsync(string client, string baselineId, string scenarioId, ScenarioCalculationDetails scenarioDetails, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<BaselineScenarioSummary>> ScenarioSummaryPreviewWithHttpMessagesAsync(string client, string baselineId, string scenarioId, IList<Deferral> deferrals, System.Guid? locationId = default(System.Guid?), System.Guid? functionId = default(System.Guid?), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (client == null)
             {
@@ -718,13 +745,9 @@ namespace Zuuse.Lifecycle.Client
             {
                 throw new ValidationException(ValidationRules.CannotBeNull, "scenarioId");
             }
-            if (scenarioDetails == null)
+            if (deferrals == null)
             {
-                throw new ValidationException(ValidationRules.CannotBeNull, "scenarioDetails");
-            }
-            if (scenarioDetails != null)
-            {
-                scenarioDetails.Validate();
+                throw new ValidationException(ValidationRules.CannotBeNull, "deferrals");
             }
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
@@ -736,16 +759,31 @@ namespace Zuuse.Lifecycle.Client
                 tracingParameters.Add("client", client);
                 tracingParameters.Add("baselineId", baselineId);
                 tracingParameters.Add("scenarioId", scenarioId);
-                tracingParameters.Add("scenarioDetails", scenarioDetails);
+                tracingParameters.Add("deferrals", deferrals);
+                tracingParameters.Add("locationId", locationId);
+                tracingParameters.Add("functionId", functionId);
                 tracingParameters.Add("cancellationToken", cancellationToken);
-                ServiceClientTracing.Enter(_invocationId, this, "ScenarioSummaryCalculate", tracingParameters);
+                ServiceClientTracing.Enter(_invocationId, this, "ScenarioSummaryPreview", tracingParameters);
             }
             // Construct URL
             var _baseUrl = Client.BaseUri.AbsoluteUri;
-            var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "{client}/baselines/{baselineId}/scenarios/{scenarioId}/summary/calculate").ToString();
+            var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "{client}/baselines/{baselineId}/scenarios/{scenarioId}/summary/preview").ToString();
             _url = _url.Replace("{client}", System.Uri.EscapeDataString(client));
             _url = _url.Replace("{baselineId}", System.Uri.EscapeDataString(baselineId));
             _url = _url.Replace("{scenarioId}", System.Uri.EscapeDataString(scenarioId));
+            List<string> _queryParameters = new List<string>();
+            if (locationId != null)
+            {
+                _queryParameters.Add(string.Format("locationId={0}", System.Uri.EscapeDataString(Microsoft.Rest.Serialization.SafeJsonConvert.SerializeObject(locationId, Client.SerializationSettings).Trim('"'))));
+            }
+            if (functionId != null)
+            {
+                _queryParameters.Add(string.Format("functionId={0}", System.Uri.EscapeDataString(Microsoft.Rest.Serialization.SafeJsonConvert.SerializeObject(functionId, Client.SerializationSettings).Trim('"'))));
+            }
+            if (_queryParameters.Count > 0)
+            {
+                _url += "?" + string.Join("&", _queryParameters);
+            }
             // Create HTTP transport objects
             var _httpRequest = new HttpRequestMessage();
             HttpResponseMessage _httpResponse = null;
@@ -768,9 +806,9 @@ namespace Zuuse.Lifecycle.Client
 
             // Serialize Request
             string _requestContent = null;
-            if(scenarioDetails != null)
+            if(deferrals != null)
             {
-                _requestContent = Microsoft.Rest.Serialization.SafeJsonConvert.SerializeObject(scenarioDetails, Client.SerializationSettings);
+                _requestContent = Microsoft.Rest.Serialization.SafeJsonConvert.SerializeObject(deferrals, Client.SerializationSettings);
                 _httpRequest.Content = new StringContent(_requestContent, System.Text.Encoding.UTF8);
                 _httpRequest.Content.Headers.ContentType =System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json; charset=utf-8");
             }
@@ -821,6 +859,177 @@ namespace Zuuse.Lifecycle.Client
                 try
                 {
                     _result.Body = Microsoft.Rest.Serialization.SafeJsonConvert.DeserializeObject<BaselineScenarioSummary>(_responseContent, Client.DeserializationSettings);
+                }
+                catch (JsonException ex)
+                {
+                    _httpRequest.Dispose();
+                    if (_httpResponse != null)
+                    {
+                        _httpResponse.Dispose();
+                    }
+                    throw new SerializationException("Unable to deserialize the response.", _responseContent, ex);
+                }
+            }
+            if (_shouldTrace)
+            {
+                ServiceClientTracing.Exit(_invocationId, _result);
+            }
+            return _result;
+        }
+
+        /// <summary>
+        /// Retrieves the interventions for a baseline scenario
+        /// </summary>
+        /// <param name='client'>
+        /// </param>
+        /// <param name='baselineId'>
+        /// </param>
+        /// <param name='scenarioId'>
+        /// </param>
+        /// <param name='locationId'>
+        /// The unique Id for the position of location taxonomy
+        /// </param>
+        /// <param name='functionId'>
+        /// The unique Id for the position of function taxonomy
+        /// </param>
+        /// <param name='customHeaders'>
+        /// Headers that will be added to request.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        /// <exception cref="HttpOperationException">
+        /// Thrown when the operation returned an invalid status code
+        /// </exception>
+        /// <exception cref="SerializationException">
+        /// Thrown when unable to deserialize the response
+        /// </exception>
+        /// <exception cref="ValidationException">
+        /// Thrown when a required parameter is null
+        /// </exception>
+        /// <exception cref="System.ArgumentNullException">
+        /// Thrown when a required parameter is null
+        /// </exception>
+        /// <return>
+        /// A response object containing the response body and response headers.
+        /// </return>
+        public async Task<HttpOperationResponse<BaselineInterventions>> ScenarioInterventionsWithHttpMessagesAsync(string client, string baselineId, string scenarioId, System.Guid? locationId = default(System.Guid?), System.Guid? functionId = default(System.Guid?), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (client == null)
+            {
+                throw new ValidationException(ValidationRules.CannotBeNull, "client");
+            }
+            if (baselineId == null)
+            {
+                throw new ValidationException(ValidationRules.CannotBeNull, "baselineId");
+            }
+            if (scenarioId == null)
+            {
+                throw new ValidationException(ValidationRules.CannotBeNull, "scenarioId");
+            }
+            // Tracing
+            bool _shouldTrace = ServiceClientTracing.IsEnabled;
+            string _invocationId = null;
+            if (_shouldTrace)
+            {
+                _invocationId = ServiceClientTracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("client", client);
+                tracingParameters.Add("baselineId", baselineId);
+                tracingParameters.Add("scenarioId", scenarioId);
+                tracingParameters.Add("locationId", locationId);
+                tracingParameters.Add("functionId", functionId);
+                tracingParameters.Add("cancellationToken", cancellationToken);
+                ServiceClientTracing.Enter(_invocationId, this, "ScenarioInterventions", tracingParameters);
+            }
+            // Construct URL
+            var _baseUrl = Client.BaseUri.AbsoluteUri;
+            var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "{client}/baselines/{baselineId}/scenarios/{scenarioId}/interventions").ToString();
+            _url = _url.Replace("{client}", System.Uri.EscapeDataString(client));
+            _url = _url.Replace("{baselineId}", System.Uri.EscapeDataString(baselineId));
+            _url = _url.Replace("{scenarioId}", System.Uri.EscapeDataString(scenarioId));
+            List<string> _queryParameters = new List<string>();
+            if (locationId != null)
+            {
+                _queryParameters.Add(string.Format("locationId={0}", System.Uri.EscapeDataString(Microsoft.Rest.Serialization.SafeJsonConvert.SerializeObject(locationId, Client.SerializationSettings).Trim('"'))));
+            }
+            if (functionId != null)
+            {
+                _queryParameters.Add(string.Format("functionId={0}", System.Uri.EscapeDataString(Microsoft.Rest.Serialization.SafeJsonConvert.SerializeObject(functionId, Client.SerializationSettings).Trim('"'))));
+            }
+            if (_queryParameters.Count > 0)
+            {
+                _url += "?" + string.Join("&", _queryParameters);
+            }
+            // Create HTTP transport objects
+            var _httpRequest = new HttpRequestMessage();
+            HttpResponseMessage _httpResponse = null;
+            _httpRequest.Method = new HttpMethod("GET");
+            _httpRequest.RequestUri = new System.Uri(_url);
+            // Set Headers
+
+
+            if (customHeaders != null)
+            {
+                foreach(var _header in customHeaders)
+                {
+                    if (_httpRequest.Headers.Contains(_header.Key))
+                    {
+                        _httpRequest.Headers.Remove(_header.Key);
+                    }
+                    _httpRequest.Headers.TryAddWithoutValidation(_header.Key, _header.Value);
+                }
+            }
+
+            // Serialize Request
+            string _requestContent = null;
+            // Send Request
+            if (_shouldTrace)
+            {
+                ServiceClientTracing.SendRequest(_invocationId, _httpRequest);
+            }
+            cancellationToken.ThrowIfCancellationRequested();
+            _httpResponse = await Client.HttpClient.SendAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
+            if (_shouldTrace)
+            {
+                ServiceClientTracing.ReceiveResponse(_invocationId, _httpResponse);
+            }
+            HttpStatusCode _statusCode = _httpResponse.StatusCode;
+            cancellationToken.ThrowIfCancellationRequested();
+            string _responseContent = null;
+            if ((int)_statusCode != 200)
+            {
+                var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", _statusCode));
+                if (_httpResponse.Content != null) {
+                    _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                }
+                else {
+                    _responseContent = string.Empty;
+                }
+                ex.Request = new HttpRequestMessageWrapper(_httpRequest, _requestContent);
+                ex.Response = new HttpResponseMessageWrapper(_httpResponse, _responseContent);
+                if (_shouldTrace)
+                {
+                    ServiceClientTracing.Error(_invocationId, ex);
+                }
+                _httpRequest.Dispose();
+                if (_httpResponse != null)
+                {
+                    _httpResponse.Dispose();
+                }
+                throw ex;
+            }
+            // Create Result
+            var _result = new HttpOperationResponse<BaselineInterventions>();
+            _result.Request = _httpRequest;
+            _result.Response = _httpResponse;
+            // Deserialize Response
+            if ((int)_statusCode == 200)
+            {
+                _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                try
+                {
+                    _result.Body = Microsoft.Rest.Serialization.SafeJsonConvert.DeserializeObject<BaselineInterventions>(_responseContent, Client.DeserializationSettings);
                 }
                 catch (JsonException ex)
                 {

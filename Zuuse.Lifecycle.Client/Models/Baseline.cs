@@ -23,9 +23,9 @@ namespace Zuuse.Lifecycle.Client.Models
         /// <summary>
         /// Initializes a new instance of the Baseline class.
         /// </summary>
-        /// <param name="status">Possible values include: 'Unset', 'Running',
-        /// 'Canceling', 'Completed', 'Deleting', 'Deleted', 'Canceled',
-        /// 'Errored'</param>
+        /// <param name="status">Possible values include: 'Unset', 'Queued',
+        /// 'Running', 'Canceling', 'Completed', 'Deleting', 'Deleted',
+        /// 'Canceled', 'Retrying', 'Errored'</param>
         public Baseline(string status, string displayName, double discountRate, int forecastHorizon, string errorMessage = default(string), System.DateTime? runDate = default(System.DateTime?), int? startYear = default(int?), string id = default(string), System.DateTime? versionDate = default(System.DateTime?), string versionBy = default(string), System.DateTime? createdDate = default(System.DateTime?), string createdBy = default(string), bool? isActive = default(bool?))
         {
             Status = status;
@@ -50,9 +50,9 @@ namespace Zuuse.Lifecycle.Client.Models
         partial void CustomInit();
 
         /// <summary>
-        /// Gets or sets possible values include: 'Unset', 'Running',
+        /// Gets or sets possible values include: 'Unset', 'Queued', 'Running',
         /// 'Canceling', 'Completed', 'Deleting', 'Deleted', 'Canceled',
-        /// 'Errored'
+        /// 'Retrying', 'Errored'
         /// </summary>
         [JsonProperty(PropertyName = "Status")]
         public string Status { get; set; }

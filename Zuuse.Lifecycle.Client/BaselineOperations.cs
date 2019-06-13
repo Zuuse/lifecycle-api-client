@@ -1112,8 +1112,6 @@ namespace Zuuse.Lifecycle.Client
         /// </param>
         /// <param name='id'>
         /// </param>
-        /// <param name='force'>
-        /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
         /// </param>
@@ -1122,6 +1120,9 @@ namespace Zuuse.Lifecycle.Client
         /// </param>
         /// <exception cref="HttpOperationException">
         /// Thrown when the operation returned an invalid status code
+        /// </exception>
+        /// <exception cref="SerializationException">
+        /// Thrown when unable to deserialize the response
         /// </exception>
         /// <exception cref="ValidationException">
         /// Thrown when a required parameter is null
@@ -1132,7 +1133,7 @@ namespace Zuuse.Lifecycle.Client
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse> GenerateBaselineWithHttpMessagesAsync(string client, string id, bool? force = default(bool?), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<GenerationProgress>> GenerateBaselineWithHttpMessagesAsync(string client, string id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (client == null)
             {
@@ -1151,7 +1152,6 @@ namespace Zuuse.Lifecycle.Client
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
                 tracingParameters.Add("client", client);
                 tracingParameters.Add("id", id);
-                tracingParameters.Add("force", force);
                 tracingParameters.Add("cancellationToken", cancellationToken);
                 ServiceClientTracing.Enter(_invocationId, this, "GenerateBaseline", tracingParameters);
             }
@@ -1160,15 +1160,6 @@ namespace Zuuse.Lifecycle.Client
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "{client}/baselines/{id}/generate").ToString();
             _url = _url.Replace("{client}", System.Uri.EscapeDataString(client));
             _url = _url.Replace("{id}", System.Uri.EscapeDataString(id));
-            List<string> _queryParameters = new List<string>();
-            if (force != null)
-            {
-                _queryParameters.Add(string.Format("force={0}", System.Uri.EscapeDataString(Microsoft.Rest.Serialization.SafeJsonConvert.SerializeObject(force, Client.SerializationSettings).Trim('"'))));
-            }
-            if (_queryParameters.Count > 0)
-            {
-                _url += "?" + string.Join("&", _queryParameters);
-            }
             // Create HTTP transport objects
             var _httpRequest = new HttpRequestMessage();
             HttpResponseMessage _httpResponse = null;
@@ -1205,7 +1196,7 @@ namespace Zuuse.Lifecycle.Client
             HttpStatusCode _statusCode = _httpResponse.StatusCode;
             cancellationToken.ThrowIfCancellationRequested();
             string _responseContent = null;
-            if ((int)_statusCode != 200 && (int)_statusCode != 204)
+            if ((int)_statusCode != 200)
             {
                 var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", _statusCode));
                 if (_httpResponse.Content != null) {
@@ -1228,9 +1219,27 @@ namespace Zuuse.Lifecycle.Client
                 throw ex;
             }
             // Create Result
-            var _result = new HttpOperationResponse();
+            var _result = new HttpOperationResponse<GenerationProgress>();
             _result.Request = _httpRequest;
             _result.Response = _httpResponse;
+            // Deserialize Response
+            if ((int)_statusCode == 200)
+            {
+                _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                try
+                {
+                    _result.Body = Microsoft.Rest.Serialization.SafeJsonConvert.DeserializeObject<GenerationProgress>(_responseContent, Client.DeserializationSettings);
+                }
+                catch (JsonException ex)
+                {
+                    _httpRequest.Dispose();
+                    if (_httpResponse != null)
+                    {
+                        _httpResponse.Dispose();
+                    }
+                    throw new SerializationException("Unable to deserialize the response.", _responseContent, ex);
+                }
+            }
             if (_shouldTrace)
             {
                 ServiceClientTracing.Exit(_invocationId, _result);

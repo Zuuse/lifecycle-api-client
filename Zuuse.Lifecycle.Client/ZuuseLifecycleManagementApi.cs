@@ -148,7 +148,7 @@ namespace Zuuse.Lifecycle.Client
             Lifecycle = new Lifecycle(this);
             Scenario = new Scenario(this);
             Zuuse = new Zuuse(this);
-            BaseUri = new System.Uri("https://zuuselifecyclemanagementapidev.azurewebsites.net");
+            BaseUri = new System.Uri("https://lifecycle.zuuse.com");
             SerializationSettings = new JsonSerializerSettings
             {
                 Formatting = Newtonsoft.Json.Formatting.Indented,

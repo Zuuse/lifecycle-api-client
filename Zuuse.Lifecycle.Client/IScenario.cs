@@ -115,6 +115,12 @@ namespace Zuuse.Lifecycle.Client
         /// <param name='scenarioId'>
         /// The Id of the Scenario
         /// </param>
+        /// <param name='locationId'>
+        /// The unique Id for the position of location taxonomy
+        /// </param>
+        /// <param name='functionId'>
+        /// The unique Id for the position of function taxonomy
+        /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
         /// </param>
@@ -130,7 +136,7 @@ namespace Zuuse.Lifecycle.Client
         /// <exception cref="Microsoft.Rest.ValidationException">
         /// Thrown when a required parameter is null
         /// </exception>
-        Task<HttpOperationResponse<BaselineScenarioSummary>> ScenarioSummaryWithHttpMessagesAsync(string client, string baselineId, string scenarioId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<BaselineScenarioSummary>> ScenarioSummaryWithHttpMessagesAsync(string client, string baselineId, string scenarioId, System.Guid? locationId = default(System.Guid?), System.Guid? functionId = default(System.Guid?), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
         /// Calculates a Scenario Summary Calculation
         /// </summary>
@@ -143,9 +149,15 @@ namespace Zuuse.Lifecycle.Client
         /// <param name='scenarioId'>
         /// The Id of the Scenario
         /// </param>
-        /// <param name='scenarioDetails'>
+        /// <param name='deferrals'>
         /// The baselineScenarioDetails to use in the calculations. contained
         /// in the httppost body
+        /// </param>
+        /// <param name='locationId'>
+        /// The unique Id for the position of location taxonomy
+        /// </param>
+        /// <param name='functionId'>
+        /// The unique Id for the position of function taxonomy
         /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
@@ -162,6 +174,37 @@ namespace Zuuse.Lifecycle.Client
         /// <exception cref="Microsoft.Rest.ValidationException">
         /// Thrown when a required parameter is null
         /// </exception>
-        Task<HttpOperationResponse<BaselineScenarioSummary>> ScenarioSummaryCalculateWithHttpMessagesAsync(string client, string baselineId, string scenarioId, ScenarioCalculationDetails scenarioDetails, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<BaselineScenarioSummary>> ScenarioSummaryPreviewWithHttpMessagesAsync(string client, string baselineId, string scenarioId, IList<Deferral> deferrals, System.Guid? locationId = default(System.Guid?), System.Guid? functionId = default(System.Guid?), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        /// <summary>
+        /// Retrieves the interventions for a baseline scenario
+        /// </summary>
+        /// <param name='client'>
+        /// </param>
+        /// <param name='baselineId'>
+        /// </param>
+        /// <param name='scenarioId'>
+        /// </param>
+        /// <param name='locationId'>
+        /// The unique Id for the position of location taxonomy
+        /// </param>
+        /// <param name='functionId'>
+        /// The unique Id for the position of function taxonomy
+        /// </param>
+        /// <param name='customHeaders'>
+        /// The headers that will be added to request.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        /// <exception cref="Microsoft.Rest.HttpOperationException">
+        /// Thrown when the operation returned an invalid status code
+        /// </exception>
+        /// <exception cref="Microsoft.Rest.SerializationException">
+        /// Thrown when unable to deserialize the response
+        /// </exception>
+        /// <exception cref="Microsoft.Rest.ValidationException">
+        /// Thrown when a required parameter is null
+        /// </exception>
+        Task<HttpOperationResponse<BaselineInterventions>> ScenarioInterventionsWithHttpMessagesAsync(string client, string baselineId, string scenarioId, System.Guid? locationId = default(System.Guid?), System.Guid? functionId = default(System.Guid?), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
     }
 }

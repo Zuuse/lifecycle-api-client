@@ -24,18 +24,18 @@ namespace Zuuse.Lifecycle.Client.Models
         /// <summary>
         /// Initializes a new instance of the BaselineScenarioSummary class.
         /// </summary>
-        public BaselineScenarioSummary(int? totalAssets = default(int?), int? filteredAssets = default(int?), int? selectedAssets = default(int?), int? totalAssetsAtRisk = default(int?), BaselineScenario baselineScenario = default(BaselineScenario), TaxonomyPosition location = default(TaxonomyPosition), TaxonomyPosition function = default(TaxonomyPosition), IList<TaxonomyScenarioSummary> drillDownLocations = default(IList<TaxonomyScenarioSummary>), IList<TaxonomyScenarioSummary> drillDownFunctions = default(IList<TaxonomyScenarioSummary>), int? startYear = default(int?))
+        public BaselineScenarioSummary(int? startYear = default(int?), int? totalAssets = default(int?), int? filteredAssets = default(int?), int? totalAssetsAtRisk = default(int?), int? additionalAssetsAtRisk = default(int?), double? maxInterventionAtTopLevel = default(double?), TaxonomyPosition location = default(TaxonomyPosition), TaxonomyPosition function = default(TaxonomyPosition), IList<BaselineScenarioSummaryDataPoints> additionalAssetDataPoints = default(IList<BaselineScenarioSummaryDataPoints>), IList<TaxonomyBreakdownSummary> taxonomyBreakdownSummaries = default(IList<TaxonomyBreakdownSummary>))
         {
+            StartYear = startYear;
             TotalAssets = totalAssets;
             FilteredAssets = filteredAssets;
-            SelectedAssets = selectedAssets;
             TotalAssetsAtRisk = totalAssetsAtRisk;
-            BaselineScenario = baselineScenario;
+            AdditionalAssetsAtRisk = additionalAssetsAtRisk;
+            MaxInterventionAtTopLevel = maxInterventionAtTopLevel;
             Location = location;
             Function = function;
-            DrillDownLocations = drillDownLocations;
-            DrillDownFunctions = drillDownFunctions;
-            StartYear = startYear;
+            AdditionalAssetDataPoints = additionalAssetDataPoints;
+            TaxonomyBreakdownSummaries = taxonomyBreakdownSummaries;
             CustomInit();
         }
 
@@ -43,6 +43,11 @@ namespace Zuuse.Lifecycle.Client.Models
         /// An initialization method that performs custom operations like setting defaults
         /// </summary>
         partial void CustomInit();
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "StartYear")]
+        public int? StartYear { get; set; }
 
         /// <summary>
         /// </summary>
@@ -56,18 +61,18 @@ namespace Zuuse.Lifecycle.Client.Models
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "SelectedAssets")]
-        public int? SelectedAssets { get; set; }
-
-        /// <summary>
-        /// </summary>
         [JsonProperty(PropertyName = "TotalAssetsAtRisk")]
         public int? TotalAssetsAtRisk { get; set; }
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "BaselineScenario")]
-        public BaselineScenario BaselineScenario { get; set; }
+        [JsonProperty(PropertyName = "AdditionalAssetsAtRisk")]
+        public int? AdditionalAssetsAtRisk { get; private set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "MaxInterventionAtTopLevel")]
+        public double? MaxInterventionAtTopLevel { get; set; }
 
         /// <summary>
         /// </summary>
@@ -81,31 +86,13 @@ namespace Zuuse.Lifecycle.Client.Models
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "DrillDownLocations")]
-        public IList<TaxonomyScenarioSummary> DrillDownLocations { get; private set; }
+        [JsonProperty(PropertyName = "AdditionalAssetDataPoints")]
+        public IList<BaselineScenarioSummaryDataPoints> AdditionalAssetDataPoints { get; private set; }
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "DrillDownFunctions")]
-        public IList<TaxonomyScenarioSummary> DrillDownFunctions { get; private set; }
+        [JsonProperty(PropertyName = "TaxonomyBreakdownSummaries")]
+        public IList<TaxonomyBreakdownSummary> TaxonomyBreakdownSummaries { get; private set; }
 
-        /// <summary>
-        /// </summary>
-        [JsonProperty(PropertyName = "StartYear")]
-        public int? StartYear { get; set; }
-
-        /// <summary>
-        /// Validate the object.
-        /// </summary>
-        /// <exception cref="Microsoft.Rest.ValidationException">
-        /// Thrown if validation fails
-        /// </exception>
-        public virtual void Validate()
-        {
-            if (BaselineScenario != null)
-            {
-                BaselineScenario.Validate();
-            }
-        }
     }
 }

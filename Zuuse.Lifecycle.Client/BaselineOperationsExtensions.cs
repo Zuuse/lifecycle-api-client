@@ -323,11 +323,9 @@ namespace Zuuse.Lifecycle.Client
             /// </param>
             /// <param name='id'>
             /// </param>
-            /// <param name='force'>
-            /// </param>
-            public static void GenerateBaseline(this IBaselineOperations operations, string client, string id, bool? force = default(bool?))
+            public static GenerationProgress GenerateBaseline(this IBaselineOperations operations, string client, string id)
             {
-                operations.GenerateBaselineAsync(client, id, force).GetAwaiter().GetResult();
+                return operations.GenerateBaselineAsync(client, id).GetAwaiter().GetResult();
             }
 
             /// <summary>
@@ -340,14 +338,15 @@ namespace Zuuse.Lifecycle.Client
             /// </param>
             /// <param name='id'>
             /// </param>
-            /// <param name='force'>
-            /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task GenerateBaselineAsync(this IBaselineOperations operations, string client, string id, bool? force = default(bool?), CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<GenerationProgress> GenerateBaselineAsync(this IBaselineOperations operations, string client, string id, CancellationToken cancellationToken = default(CancellationToken))
             {
-                (await operations.GenerateBaselineWithHttpMessagesAsync(client, id, force, null, cancellationToken).ConfigureAwait(false)).Dispose();
+                using (var _result = await operations.GenerateBaselineWithHttpMessagesAsync(client, id, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
             }
 
             /// <summary>

@@ -170,9 +170,15 @@ namespace Zuuse.Lifecycle.Client
             /// <param name='scenarioId'>
             /// The Id of the Scenario
             /// </param>
-            public static BaselineScenarioSummary ScenarioSummary(this IScenario operations, string client, string baselineId, string scenarioId)
+            /// <param name='locationId'>
+            /// The unique Id for the position of location taxonomy
+            /// </param>
+            /// <param name='functionId'>
+            /// The unique Id for the position of function taxonomy
+            /// </param>
+            public static BaselineScenarioSummary ScenarioSummary(this IScenario operations, string client, string baselineId, string scenarioId, System.Guid? locationId = default(System.Guid?), System.Guid? functionId = default(System.Guid?))
             {
-                return operations.ScenarioSummaryAsync(client, baselineId, scenarioId).GetAwaiter().GetResult();
+                return operations.ScenarioSummaryAsync(client, baselineId, scenarioId, locationId, functionId).GetAwaiter().GetResult();
             }
 
             /// <summary>
@@ -190,12 +196,18 @@ namespace Zuuse.Lifecycle.Client
             /// <param name='scenarioId'>
             /// The Id of the Scenario
             /// </param>
+            /// <param name='locationId'>
+            /// The unique Id for the position of location taxonomy
+            /// </param>
+            /// <param name='functionId'>
+            /// The unique Id for the position of function taxonomy
+            /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<BaselineScenarioSummary> ScenarioSummaryAsync(this IScenario operations, string client, string baselineId, string scenarioId, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<BaselineScenarioSummary> ScenarioSummaryAsync(this IScenario operations, string client, string baselineId, string scenarioId, System.Guid? locationId = default(System.Guid?), System.Guid? functionId = default(System.Guid?), CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.ScenarioSummaryWithHttpMessagesAsync(client, baselineId, scenarioId, null, cancellationToken).ConfigureAwait(false))
+                using (var _result = await operations.ScenarioSummaryWithHttpMessagesAsync(client, baselineId, scenarioId, locationId, functionId, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }
@@ -216,13 +228,19 @@ namespace Zuuse.Lifecycle.Client
             /// <param name='scenarioId'>
             /// The Id of the Scenario
             /// </param>
-            /// <param name='scenarioDetails'>
+            /// <param name='deferrals'>
             /// The baselineScenarioDetails to use in the calculations. contained in the
             /// httppost body
             /// </param>
-            public static BaselineScenarioSummary ScenarioSummaryCalculate(this IScenario operations, string client, string baselineId, string scenarioId, ScenarioCalculationDetails scenarioDetails)
+            /// <param name='locationId'>
+            /// The unique Id for the position of location taxonomy
+            /// </param>
+            /// <param name='functionId'>
+            /// The unique Id for the position of function taxonomy
+            /// </param>
+            public static BaselineScenarioSummary ScenarioSummaryPreview(this IScenario operations, string client, string baselineId, string scenarioId, IList<Deferral> deferrals, System.Guid? locationId = default(System.Guid?), System.Guid? functionId = default(System.Guid?))
             {
-                return operations.ScenarioSummaryCalculateAsync(client, baselineId, scenarioId, scenarioDetails).GetAwaiter().GetResult();
+                return operations.ScenarioSummaryPreviewAsync(client, baselineId, scenarioId, deferrals, locationId, functionId).GetAwaiter().GetResult();
             }
 
             /// <summary>
@@ -240,16 +258,74 @@ namespace Zuuse.Lifecycle.Client
             /// <param name='scenarioId'>
             /// The Id of the Scenario
             /// </param>
-            /// <param name='scenarioDetails'>
+            /// <param name='deferrals'>
             /// The baselineScenarioDetails to use in the calculations. contained in the
             /// httppost body
+            /// </param>
+            /// <param name='locationId'>
+            /// The unique Id for the position of location taxonomy
+            /// </param>
+            /// <param name='functionId'>
+            /// The unique Id for the position of function taxonomy
             /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<BaselineScenarioSummary> ScenarioSummaryCalculateAsync(this IScenario operations, string client, string baselineId, string scenarioId, ScenarioCalculationDetails scenarioDetails, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<BaselineScenarioSummary> ScenarioSummaryPreviewAsync(this IScenario operations, string client, string baselineId, string scenarioId, IList<Deferral> deferrals, System.Guid? locationId = default(System.Guid?), System.Guid? functionId = default(System.Guid?), CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.ScenarioSummaryCalculateWithHttpMessagesAsync(client, baselineId, scenarioId, scenarioDetails, null, cancellationToken).ConfigureAwait(false))
+                using (var _result = await operations.ScenarioSummaryPreviewWithHttpMessagesAsync(client, baselineId, scenarioId, deferrals, locationId, functionId, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <summary>
+            /// Retrieves the interventions for a baseline scenario
+            /// </summary>
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='client'>
+            /// </param>
+            /// <param name='baselineId'>
+            /// </param>
+            /// <param name='scenarioId'>
+            /// </param>
+            /// <param name='locationId'>
+            /// The unique Id for the position of location taxonomy
+            /// </param>
+            /// <param name='functionId'>
+            /// The unique Id for the position of function taxonomy
+            /// </param>
+            public static BaselineInterventions ScenarioInterventions(this IScenario operations, string client, string baselineId, string scenarioId, System.Guid? locationId = default(System.Guid?), System.Guid? functionId = default(System.Guid?))
+            {
+                return operations.ScenarioInterventionsAsync(client, baselineId, scenarioId, locationId, functionId).GetAwaiter().GetResult();
+            }
+
+            /// <summary>
+            /// Retrieves the interventions for a baseline scenario
+            /// </summary>
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='client'>
+            /// </param>
+            /// <param name='baselineId'>
+            /// </param>
+            /// <param name='scenarioId'>
+            /// </param>
+            /// <param name='locationId'>
+            /// The unique Id for the position of location taxonomy
+            /// </param>
+            /// <param name='functionId'>
+            /// The unique Id for the position of function taxonomy
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<BaselineInterventions> ScenarioInterventionsAsync(this IScenario operations, string client, string baselineId, string scenarioId, System.Guid? locationId = default(System.Guid?), System.Guid? functionId = default(System.Guid?), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.ScenarioInterventionsWithHttpMessagesAsync(client, baselineId, scenarioId, locationId, functionId, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }

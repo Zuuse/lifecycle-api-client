@@ -24,7 +24,7 @@ namespace Zuuse.Lifecycle.Client.Models
         /// <summary>
         /// Initializes a new instance of the BaselineInterventions class.
         /// </summary>
-        public BaselineInterventions(string baselineId = default(string), string baselineName = default(string), int? startYear = default(int?), int? years = default(int?), System.DateTime? runDate = default(System.DateTime?), TaxonomyNames taxonomyNames = default(TaxonomyNames), IList<InterventionSetWithTaxonomy> interventionSets = default(IList<InterventionSetWithTaxonomy>))
+        public BaselineInterventions(string baselineId = default(string), string baselineName = default(string), int? startYear = default(int?), int? years = default(int?), System.DateTime? runDate = default(System.DateTime?), TaxonomyNames taxonomyNames = default(TaxonomyNames), IList<string> attributeNames = default(IList<string>), IList<string> measureNames = default(IList<string>), IList<InterventionSetWithTaxonomy> interventionSets = default(IList<InterventionSetWithTaxonomy>))
         {
             BaselineId = baselineId;
             BaselineName = baselineName;
@@ -32,6 +32,8 @@ namespace Zuuse.Lifecycle.Client.Models
             Years = years;
             RunDate = runDate;
             TaxonomyNames = taxonomyNames;
+            AttributeNames = attributeNames;
+            MeasureNames = measureNames;
             InterventionSets = interventionSets;
             CustomInit();
         }
@@ -70,6 +72,16 @@ namespace Zuuse.Lifecycle.Client.Models
         /// </summary>
         [JsonProperty(PropertyName = "TaxonomyNames")]
         public TaxonomyNames TaxonomyNames { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "AttributeNames")]
+        public IList<string> AttributeNames { get; private set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "MeasureNames")]
+        public IList<string> MeasureNames { get; private set; }
 
         /// <summary>
         /// </summary>

@@ -208,8 +208,6 @@ namespace Zuuse.Lifecycle.Client
         /// </param>
         /// <param name='id'>
         /// </param>
-        /// <param name='force'>
-        /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
         /// </param>
@@ -219,10 +217,13 @@ namespace Zuuse.Lifecycle.Client
         /// <exception cref="Microsoft.Rest.HttpOperationException">
         /// Thrown when the operation returned an invalid status code
         /// </exception>
+        /// <exception cref="Microsoft.Rest.SerializationException">
+        /// Thrown when unable to deserialize the response
+        /// </exception>
         /// <exception cref="Microsoft.Rest.ValidationException">
         /// Thrown when a required parameter is null
         /// </exception>
-        Task<HttpOperationResponse> GenerateBaselineWithHttpMessagesAsync(string client, string id, bool? force = default(bool?), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<GenerationProgress>> GenerateBaselineWithHttpMessagesAsync(string client, string id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
         /// Will update the baseline status to "Canceling" so the webjob can
         /// cancel its generation and hard delete its interventions

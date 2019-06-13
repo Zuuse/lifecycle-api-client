@@ -55,7 +55,6 @@ namespace Zuuse.Lifecycle.Client
         /// The id of the lifecycle setting
         /// </param>
         /// <param name='lifecycleSetting'>
-        /// The Lifecycle Setting to upsert
         /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
@@ -99,26 +98,6 @@ namespace Zuuse.Lifecycle.Client
         /// </exception>
         Task<HttpOperationResponse<string>> DeleteLifecycleSettingWithHttpMessagesAsync(string client, string id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
-        /// This endpoint will queue a webjob that will retrieve all
-        /// lifecyclesettings and update the AssetLifecycleSetting Table to
-        /// match..
-        /// </summary>
-        /// <param name='client'>
-        /// </param>
-        /// <param name='customHeaders'>
-        /// The headers that will be added to request.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// The cancellation token.
-        /// </param>
-        /// <exception cref="Microsoft.Rest.HttpOperationException">
-        /// Thrown when the operation returned an invalid status code
-        /// </exception>
-        /// <exception cref="Microsoft.Rest.ValidationException">
-        /// Thrown when a required parameter is null
-        /// </exception>
-        Task<HttpOperationResponse> ForceUpdateLifecycleSettingStatisticsWithHttpMessagesAsync(string client, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
-        /// <summary>
         /// Will generate Lifecycle setting for all children physical assets
         /// from the provided LifecycleSetting Default
         /// </summary>
@@ -137,19 +116,25 @@ namespace Zuuse.Lifecycle.Client
         /// <exception cref="Microsoft.Rest.HttpOperationException">
         /// Thrown when the operation returned an invalid status code
         /// </exception>
+        /// <exception cref="Microsoft.Rest.SerializationException">
+        /// Thrown when unable to deserialize the response
+        /// </exception>
         /// <exception cref="Microsoft.Rest.ValidationException">
         /// Thrown when a required parameter is null
         /// </exception>
-        Task<HttpOperationResponse> GenerateLifecycleSettingsWithHttpMessagesAsync(string client, string id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<GenerationProgress>> GenerateLifecycleSettingsWithHttpMessagesAsync(string client, string id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
-        /// Gets the current generation progress for this lifecycle (if any,
+        /// Gets the current generation progress for this primary key(if any,
         /// null if there is no progress to display)
         /// </summary>
         /// <param name='client'>
         /// The name of the client account.
         /// </param>
         /// <param name='id'>
-        /// The id of the parent lifeCycleSetting
+        /// The Primary key of the object being generated
+        /// </param>
+        /// <param name='peek'>
+        /// Enables or Disables the update of the Last View Time
         /// </param>
         /// <param name='force'>
         /// Forces the return of the progress regardless of if the information
@@ -170,36 +155,7 @@ namespace Zuuse.Lifecycle.Client
         /// <exception cref="Microsoft.Rest.ValidationException">
         /// Thrown when a required parameter is null
         /// </exception>
-        Task<HttpOperationResponse<LifecycleGenerationProgress>> GetLifecycleGenerationProgressWithHttpMessagesAsync(string client, string id, bool? force = default(bool?), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
-        /// <summary>
-        /// (ONLY VISIBLE IN DEV)
-        /// Saves a LifecycleSettings generation Progress
-        /// </summary>
-        /// <param name='client'>
-        /// The name of the client account.
-        /// </param>
-        /// <param name='id'>
-        /// The id of the parent lifeCycleSetting
-        /// </param>
-        /// <param name='lifecycleGenerationProgress'>
-        /// The lifecycleGenerationProgress to save
-        /// </param>
-        /// <param name='customHeaders'>
-        /// The headers that will be added to request.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// The cancellation token.
-        /// </param>
-        /// <exception cref="Microsoft.Rest.HttpOperationException">
-        /// Thrown when the operation returned an invalid status code
-        /// </exception>
-        /// <exception cref="Microsoft.Rest.SerializationException">
-        /// Thrown when unable to deserialize the response
-        /// </exception>
-        /// <exception cref="Microsoft.Rest.ValidationException">
-        /// Thrown when a required parameter is null
-        /// </exception>
-        Task<HttpOperationResponse<LifecycleGenerationProgress>> UpdateLifecycleGenerationProgressWithHttpMessagesAsync(string client, string id, LifecycleGenerationProgress lifecycleGenerationProgress, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<GenerationProgress>> GetGenerationProgressWithHttpMessagesAsync(string client, string id, bool? peek = default(bool?), bool? force = default(bool?), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
         /// Retrieve a summary of lifecycle setting Guids
         /// </summary>

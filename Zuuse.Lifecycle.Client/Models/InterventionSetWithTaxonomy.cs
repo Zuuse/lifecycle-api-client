@@ -28,7 +28,7 @@ namespace Zuuse.Lifecycle.Client.Models
         /// </summary>
         /// <param name="method">Possible values include: 'NotIncluded',
         /// 'Active', 'Passive', 'Reserve'</param>
-        public InterventionSetWithTaxonomy(string assetId = default(string), string assetName = default(string), string method = default(string), IList<string> locationPath = default(IList<string>), IList<string> functionalPath = default(IList<string>), IList<double?> interventions = default(IList<double?>), int? availableDeferral = default(int?))
+        public InterventionSetWithTaxonomy(string assetId = default(string), string assetName = default(string), string method = default(string), IList<string> locationPath = default(IList<string>), IList<string> functionalPath = default(IList<string>), IList<double?> interventions = default(IList<double?>), int? availableDeferral = default(int?), IList<string> attributes = default(IList<string>), IList<double?> measures = default(IList<double?>))
         {
             AssetId = assetId;
             AssetName = assetName;
@@ -37,6 +37,8 @@ namespace Zuuse.Lifecycle.Client.Models
             FunctionalPath = functionalPath;
             Interventions = interventions;
             AvailableDeferral = availableDeferral;
+            Attributes = attributes;
+            Measures = measures;
             CustomInit();
         }
 
@@ -81,6 +83,16 @@ namespace Zuuse.Lifecycle.Client.Models
         /// </summary>
         [JsonProperty(PropertyName = "AvailableDeferral")]
         public int? AvailableDeferral { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "Attributes")]
+        public IList<string> Attributes { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "Measures")]
+        public IList<double?> Measures { get; set; }
 
     }
 }

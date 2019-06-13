@@ -72,7 +72,6 @@ namespace Zuuse.Lifecycle.Client
             /// The id of the lifecycle setting
             /// </param>
             /// <param name='lifecycleSetting'>
-            /// The Lifecycle Setting to upsert
             /// </param>
             public static string UpsertLifecycleSetting(this ILifecycle operations, string client, string id, LifecycleSetting lifecycleSetting)
             {
@@ -94,7 +93,6 @@ namespace Zuuse.Lifecycle.Client
             /// The id of the lifecycle setting
             /// </param>
             /// <param name='lifecycleSetting'>
-            /// The Lifecycle Setting to upsert
             /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
@@ -148,37 +146,6 @@ namespace Zuuse.Lifecycle.Client
             }
 
             /// <summary>
-            /// This endpoint will queue a webjob that will retrieve all lifecyclesettings
-            /// and update the AssetLifecycleSetting Table to match..
-            /// </summary>
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='client'>
-            /// </param>
-            public static void ForceUpdateLifecycleSettingStatistics(this ILifecycle operations, string client)
-            {
-                operations.ForceUpdateLifecycleSettingStatisticsAsync(client).GetAwaiter().GetResult();
-            }
-
-            /// <summary>
-            /// This endpoint will queue a webjob that will retrieve all lifecyclesettings
-            /// and update the AssetLifecycleSetting Table to match..
-            /// </summary>
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='client'>
-            /// </param>
-            /// <param name='cancellationToken'>
-            /// The cancellation token.
-            /// </param>
-            public static async Task ForceUpdateLifecycleSettingStatisticsAsync(this ILifecycle operations, string client, CancellationToken cancellationToken = default(CancellationToken))
-            {
-                (await operations.ForceUpdateLifecycleSettingStatisticsWithHttpMessagesAsync(client, null, cancellationToken).ConfigureAwait(false)).Dispose();
-            }
-
-            /// <summary>
             /// Will generate Lifecycle setting for all children physical assets from the
             /// provided LifecycleSetting Default
             /// </summary>
@@ -191,9 +158,9 @@ namespace Zuuse.Lifecycle.Client
             /// <param name='id'>
             /// The id of the lifecycle setting
             /// </param>
-            public static void GenerateLifecycleSettings(this ILifecycle operations, string client, string id)
+            public static GenerationProgress GenerateLifecycleSettings(this ILifecycle operations, string client, string id)
             {
-                operations.GenerateLifecycleSettingsAsync(client, id).GetAwaiter().GetResult();
+                return operations.GenerateLifecycleSettingsAsync(client, id).GetAwaiter().GetResult();
             }
 
             /// <summary>
@@ -212,64 +179,17 @@ namespace Zuuse.Lifecycle.Client
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task GenerateLifecycleSettingsAsync(this ILifecycle operations, string client, string id, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<GenerationProgress> GenerateLifecycleSettingsAsync(this ILifecycle operations, string client, string id, CancellationToken cancellationToken = default(CancellationToken))
             {
-                (await operations.GenerateLifecycleSettingsWithHttpMessagesAsync(client, id, null, cancellationToken).ConfigureAwait(false)).Dispose();
-            }
-
-            /// <summary>
-            /// Gets the current generation progress for this lifecycle (if any, null if
-            /// there is no progress to display)
-            /// </summary>
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='client'>
-            /// The name of the client account.
-            /// </param>
-            /// <param name='id'>
-            /// The id of the parent lifeCycleSetting
-            /// </param>
-            /// <param name='force'>
-            /// Forces the return of the progress regardless of if the information is out
-            /// of date
-            /// </param>
-            public static LifecycleGenerationProgress GetLifecycleGenerationProgress(this ILifecycle operations, string client, string id, bool? force = default(bool?))
-            {
-                return operations.GetLifecycleGenerationProgressAsync(client, id, force).GetAwaiter().GetResult();
-            }
-
-            /// <summary>
-            /// Gets the current generation progress for this lifecycle (if any, null if
-            /// there is no progress to display)
-            /// </summary>
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='client'>
-            /// The name of the client account.
-            /// </param>
-            /// <param name='id'>
-            /// The id of the parent lifeCycleSetting
-            /// </param>
-            /// <param name='force'>
-            /// Forces the return of the progress regardless of if the information is out
-            /// of date
-            /// </param>
-            /// <param name='cancellationToken'>
-            /// The cancellation token.
-            /// </param>
-            public static async Task<LifecycleGenerationProgress> GetLifecycleGenerationProgressAsync(this ILifecycle operations, string client, string id, bool? force = default(bool?), CancellationToken cancellationToken = default(CancellationToken))
-            {
-                using (var _result = await operations.GetLifecycleGenerationProgressWithHttpMessagesAsync(client, id, force, null, cancellationToken).ConfigureAwait(false))
+                using (var _result = await operations.GenerateLifecycleSettingsWithHttpMessagesAsync(client, id, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }
             }
 
             /// <summary>
-            /// (ONLY VISIBLE IN DEV)
-            /// Saves a LifecycleSettings generation Progress
+            /// Gets the current generation progress for this primary key(if any, null if
+            /// there is no progress to display)
             /// </summary>
             /// <param name='operations'>
             /// The operations group for this extension method.
@@ -278,19 +198,23 @@ namespace Zuuse.Lifecycle.Client
             /// The name of the client account.
             /// </param>
             /// <param name='id'>
-            /// The id of the parent lifeCycleSetting
+            /// The Primary key of the object being generated
             /// </param>
-            /// <param name='lifecycleGenerationProgress'>
-            /// The lifecycleGenerationProgress to save
+            /// <param name='peek'>
+            /// Enables or Disables the update of the Last View Time
             /// </param>
-            public static LifecycleGenerationProgress UpdateLifecycleGenerationProgress(this ILifecycle operations, string client, string id, LifecycleGenerationProgress lifecycleGenerationProgress)
+            /// <param name='force'>
+            /// Forces the return of the progress regardless of if the information is out
+            /// of date
+            /// </param>
+            public static GenerationProgress GetGenerationProgress(this ILifecycle operations, string client, string id, bool? peek = default(bool?), bool? force = default(bool?))
             {
-                return operations.UpdateLifecycleGenerationProgressAsync(client, id, lifecycleGenerationProgress).GetAwaiter().GetResult();
+                return operations.GetGenerationProgressAsync(client, id, peek, force).GetAwaiter().GetResult();
             }
 
             /// <summary>
-            /// (ONLY VISIBLE IN DEV)
-            /// Saves a LifecycleSettings generation Progress
+            /// Gets the current generation progress for this primary key(if any, null if
+            /// there is no progress to display)
             /// </summary>
             /// <param name='operations'>
             /// The operations group for this extension method.
@@ -299,17 +223,21 @@ namespace Zuuse.Lifecycle.Client
             /// The name of the client account.
             /// </param>
             /// <param name='id'>
-            /// The id of the parent lifeCycleSetting
+            /// The Primary key of the object being generated
             /// </param>
-            /// <param name='lifecycleGenerationProgress'>
-            /// The lifecycleGenerationProgress to save
+            /// <param name='peek'>
+            /// Enables or Disables the update of the Last View Time
+            /// </param>
+            /// <param name='force'>
+            /// Forces the return of the progress regardless of if the information is out
+            /// of date
             /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<LifecycleGenerationProgress> UpdateLifecycleGenerationProgressAsync(this ILifecycle operations, string client, string id, LifecycleGenerationProgress lifecycleGenerationProgress, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<GenerationProgress> GetGenerationProgressAsync(this ILifecycle operations, string client, string id, bool? peek = default(bool?), bool? force = default(bool?), CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.UpdateLifecycleGenerationProgressWithHttpMessagesAsync(client, id, lifecycleGenerationProgress, null, cancellationToken).ConfigureAwait(false))
+                using (var _result = await operations.GetGenerationProgressWithHttpMessagesAsync(client, id, peek, force, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }
